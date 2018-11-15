@@ -36,6 +36,7 @@ class Game(models.Model):
     platforms = models.ManyToManyField(Platform)
     modes = models.ManyToManyField(Mode)
     pic = models.ImageField(upload_to='media/')
+    metacritic = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>True Game</title>
+    <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="margin-bottom:50px;">
+    <span class="navbar-brand">True Game</span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+        </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="text" placeholder="Procure por jogos!">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %} 		
+    </div>
+
+    <div class="container" style="text-align:center; margin-bottom:30px;">
+        {% if games.has_previous %}
+            <button onclick="location.href='?page={{ games.previous_page_number }}'" type="button" class="btn btn-secondary" title="" data-container="body" data-toggle="popover" data-placement="left" data-original-title="Popover Title">ANTERIOR</button>
+        {% endif %}
+        {% if games.has_next %}
+            <button onclick="location.href='?page={{ games.next_page_number }}'" type="button" class="btn btn-secondary" title="" data-container="body" data-toggle="popover" data-placement="left" data-original-title="Popover Title">PRÓXIMO</button>
+        {% endif %}
+    </div>
+<body>
+</body>
+</html>

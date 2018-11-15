@@ -1,0 +1,28 @@
+{% extends 'game/base.html' %}
+
+{% block content %}
+    {% for game in games %}
+        <div class="jumbotron">
+            <div class="row">
+            <div class="col-md-8">
+                <h1 class="display-3">{{ game.name }}</h1>
+            </div>
+            <div class="col-md-2 offset-md-2">
+                {% if game.metacritic <= 50 %}
+                    <h1 class="display-3" style="color:red;">{{ game.metacritic }}</h1>
+                {% elif game.metacritic > 50 and game.metacritic < 70 %}
+                    <h1 class="display-3" style="color:yellow;">{{ game.metacritic }}</h1>
+                {% elif game.metacritic >= 70 %}
+                    <h1 class="display-3" style="color:green;">{{ game.metacritic }}</h1>
+                {% endif %}
+            </div>
+            </div>
+            <p class="lead">Desenvolvedora: {{ game.developer }}</p>
+            <hr class="my-4">
+            <p>Lançado em: {{ game.release_date }}</p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" href="#" role="button">Detalhes</a>
+            </p>
+        </div>
+    {% endfor %}
+{% endblock %}

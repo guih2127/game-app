@@ -1,0 +1,10 @@
+{% extends 'game/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    {% load staticfiles %}
+    <div class="container">
+        <h1>{{ game.name }}</h1>
+        <!--<img style="max-width:200px;" src="{{ game.pic.url }}">-->
+    </div>
+{% endblock %}

@@ -5,6 +5,25 @@
     {% load staticfiles %}
     <div class="container">
         <h1>{{ game.name }}</h1>
-        <!--<img style="max-width:200px;" src="{{ game.pic.url }}">-->
+        <p>{{ game.text }}</p>
+        <col>
+            <h4>Disponível para:</h4>
+            <ol class="breadcrumb">
+            {% for platform in platforms %}
+                <li class="breadcrumb-item">{{ platform.name }}</li>
+            {% endfor %}
+            </ol>
+        </col>
+        <div style="text-align:center;">
+            <button type="button" style="margin-right:5px;" class="btn btn-primary">Estou jogando</button>
+            <button type="button" class="btn btn-primary">Colocar na fila</button>
+        </div>
+        <div>
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="/">Voltar</a>
+                </li>
+            </ul>
+        </div>
     </div>
 {% endblock %}

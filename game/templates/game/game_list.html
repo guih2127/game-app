@@ -17,12 +17,14 @@
                 {% endif %}
             </div>
             </div>
-            <p class="lead">Desenvolvedora: {{ game.developer }}</p>
-            <hr class="my-4">
-            <p>Lançado em: {{ game.release_date }}</p>
-            <p class="lead">
-                <a class="btn btn-primary btn-lg" href="{% url 'game_detail' pk=game.pk %}" role="button">Detalhes</a>
-            </p>
+            <div class="col-md-8">
+                <p class="lead">Desenvolvedora: {{ game.developer }}</p>
+                <hr class="my-4">
+                <p>Lançado em: {{ game.release_date }}</p>
+                <p class="lead">
+                    <a class="btn btn-primary btn-lg" href="{% url 'game_detail' pk=game.pk %}" role="button">Detalhes</a>
+                </p>
+            </div>
         </div>
     {% endfor %}
 {% endblock %}

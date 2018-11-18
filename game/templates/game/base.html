@@ -22,6 +22,9 @@
 
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="#">Olá, {{ user.username }}!</a>
@@ -38,9 +41,6 @@
                     <a class="nav-link" href="{% url 'register' %}">Cadastrar</a>
                 </li>
             {% endif %}
-            <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
-            </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
         <input name="search" class="form-control mr-sm-2" type="search" placeholder="Procure por jogos!">

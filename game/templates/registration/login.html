@@ -1,0 +1,49 @@
+{% extends "../game/base.html" %}
+
+{% block content %}
+
+{% if form.errors %}
+  <p>Seu usuário ou senha estão errados, tente novamente.</p>
+{% endif %}
+
+{% if next %}
+  {% if user.is_authenticated %}
+    <p>A sua conta não possui acesso a essa página.</p>
+  {% else %}
+    <p>Por favor logue-se para ver essa página.</p>
+  {% endif %}
+{% endif %}
+
+<div class="container">
+    <div class="form-group row">
+        <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+            <legend style="margin-bottom:20px;">Entre:</legend>
+            <div class="form-group">
+                <label style="width:100px; clear:both;" 
+                        for="username">
+                        {{ form.username.label_tag }}
+                </label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <label style="width:100px; clear:both;" 
+                        for="password">
+                        {{ form.password.label_tag }}
+                </label>
+                {{ form.password }}
+            </div>
+            </div>
+            <div class="form-group row">
+                <button type="submit" value="login" class="btn btn-primary">Entrar</button>
+                <!--<button type="hidden" class="btn btn-primary" name="next">{{ next }}</button>-->
+                <button onclick="location.href={% url 'password_reset' %};" 
+                        class="btn btn-primary"
+                        style="margin-left:5px;">
+                        Esqueceu sua senha?
+                </button>
+            </div>
+        </form>
+</div>
+
+{% endblock %}

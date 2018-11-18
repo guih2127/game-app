@@ -25,7 +25,7 @@ def register(request):
 
 def game_list(request):
     all_games = Game.objects.all().order_by('-release_date')
-    paginator = Paginator(all_games, 2)
+    paginator = Paginator(all_games, 15)
 
     page = request.GET.get('page')
     games = paginator.get_page(page)

@@ -1,31 +1,29 @@
 {% extends 'game/base.html' %}
 
 {% block content %}
+    <div class="list-group" style="margin-bottom:20px;">
     {% for game in games %}
-        <div class="jumbotron">
-            <div class="row">
-            <div class="col-md-8">
-                <h1 style="margin-bottom:30px; word-break: break-word; word-wrap: break-word;" 
-                    class="display-3">{{ game.name }}</h1>
-            </div>
-            <div class="col-md-2 offset-md-2">
-                {% if game.metacritic <= 50 %}
-                    <h1 class="display-3" style="color:red;">{{ game.metacritic }}</h1>
-                {% elif game.metacritic > 50 and game.metacritic < 70 %}
-                    <h1 class="display-3" style="color:yellow;">{{ game.metacritic }}</h1>
-                {% elif game.metacritic >= 70 %}
-                    <h1 class="display-3" style="color:green;">{{ game.metacritic }}</h1>
-                {% endif %}
-            </div>
-            </div>
-            <div class="col-md-8">
-                <p class="lead">Desenvolvedora: {{ game.developer }}</p>
-                <hr class="my-4">
-                <p>Lançado em: {{ game.release_date }}</p>
-                <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="{% url 'game_detail' pk=game.pk %}" role="button">Detalhes</a>
-                </p>
-            </div>
-        </div>
+        <a href="{% url 'game_detail' pk=game.pk %}" class="list-group-item list-group-item-action">
+                {{ game.name }}
+                <span style="float:right;" class="badge badge-primary badge-pill">
+                    {{ game.developer }}
+                </span>
+        </a>
     {% endfor %}
+    </div>
+    <ul class="pagination">
+    {% if games.has_previous %}
+        <button onclick="location.href='?page={{ games.previous_page_number }}'" 
+                type="button" 
+                class="btn btn-success"
+                style="margin-right:5px;">ANTERIOR
+        </button>
+    {% endif %}
+    {% if games.has_next %}
+        <button onclick="location.href='?page={{ games.next_page_number }}'" 
+                type="button" 
+                class="btn btn-success">PRÓXIMO
+        </button>
+    {% endif %}
+    </ul>
 {% endblock %}

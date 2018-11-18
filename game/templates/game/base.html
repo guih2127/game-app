@@ -53,15 +53,6 @@
         {% block content %}
         {% endblock %} 		
     </div>
-
-    <div class="container" style="text-align:center; margin-bottom:30px;">
-        {% if games.has_previous %}
-            <button onclick="location.href='?page={{ games.previous_page_number }}'" type="button" class="btn btn-secondary" title="" data-container="body" data-toggle="popover" data-placement="left" data-original-title="Popover Title">ANTERIOR</button>
-        {% endif %}
-        {% if games.has_next %}
-            <button onclick="location.href='?page={{ games.next_page_number }}'" type="button" class="btn btn-secondary" title="" data-container="body" data-toggle="popover" data-placement="left" data-original-title="Popover Title">PRÓXIMO</button>
-        {% endif %}
-    </div>
 <body>
 </body>
 </html>

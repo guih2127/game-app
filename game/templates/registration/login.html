@@ -37,13 +37,11 @@
             <div class="form-group row">
                 <button type="submit" value="login" class="btn btn-primary">Entrar</button>
                 <!--<button type="hidden" class="btn btn-primary" name="next">{{ next }}</button>-->
-                <button onclick="location.href={% url 'password_reset' %};" 
-                        class="btn btn-primary"
-                        style="margin-left:5px;">
-                        Esqueceu sua senha?
-                </button>
             </div>
         </form>
+        <div class="form-group row">
+            <p><a href="{% url 'password_reset' %}">Esqueceu sua senha?</a></p>
+        </div>
 </div>
 
 {% endblock %}

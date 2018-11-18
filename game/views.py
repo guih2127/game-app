@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Game, Developer, Genre, Platform, Mode
+from .models import Game, Developer, Genre, Platform, Mode, UserGamesInformation
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
@@ -41,3 +41,33 @@ def game_detail(request, pk):
     platforms = game.platforms.all()
 
     return render(request, 'game/game_detail.html', {'game': game, 'platforms': platforms})
+
+def add_game_to_wishlist(request, pk):
+    game = get_object_or_404(Game, pk=pk)
+    user = request.user
+    user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
+    user_games = UserGamesInformation.objects.get(pk=user.id)
+    wishlist = user_games.want_to_play
+    wishlist.add(game)
+
+    return render(request, 'game/confirmation.html')
+
+def add_game_to_currently_playing(request, pk):
+    game = get_object_or_404(Game, pk=pk)
+    user = request.user
+    user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
+    user_games = UserGamesInformation.objects.get(pk=user.id)
+    currently_playing = user_games.currently_playing
+    currently_playing.add(game)
+
+    return render(request, 'game/confirmation.html')
+
+def add_game_to_finished(request, pk):
+    game = get_object_or_404(Game, pk=pk)
+    user = request.user
+    user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
+    user_games = UserGamesInformation.objects.get(pk=user.id)
+    finished = user_games.finished
+    finished.add(game)
+
+    return render(request, 'game/confirmation.html')

@@ -1,6 +1,7 @@
 {% extends 'game/base.html' %}
 
 {% block content %}
+    <h3>Mais recentes</h3>
     <div class="list-group" style="margin-bottom:20px;">
     {% for game in games %}
         <a href="{% url 'game_detail' pk=game.pk %}" class="list-group-item list-group-item-action">

@@ -42,5 +42,14 @@ class Game(models.Model):
     def __str__(self):
         return self.name
 
+class UserGamesInformation(models.Model):
+    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+    currently_playing = models.ManyToManyField(Game, related_name='currently_playing')
+    want_to_play = models.ManyToManyField(Game, related_name='want_to_play')
+    finished = models.ManyToManyField(Game, 'finished')
 
+    class Meta:
+        verbose_name = 'User Game Information'
 
+    def __str__(self):
+        return self.user.username

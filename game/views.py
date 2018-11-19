@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
@@ -36,6 +36,18 @@ def game_list(request):
         
     return render(request, 'game/game_list.html', {'games': games})
 
+@login_required
+def profile(request):
+    user = request.user
+    user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
+    user_games = UserGamesInformation.objects.get(pk=user.id)
+    wishlist = user_games.want_to_play.order_by()[0:5]
+    currently_playing = user_games.currently_playing.order_by()[0:5]
+    finished = user_games.finished.order_by()[0:5]
+
+    return render(request, 'game/profile.html', {'wishlist': wishlist, 
+    'currently_playing': currently_playing, 'finished': finished, 'user': user})
+
 def game_detail(request, pk):
     game = get_object_or_404(Game, pk=pk)
     platforms = game.platforms.all()
@@ -48,9 +60,14 @@ def add_game_to_wishlist(request, pk):
     user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
     user_games = UserGamesInformation.objects.get(pk=user.id)
     wishlist = user_games.want_to_play
-    wishlist.add(game)
+    error = None
 
-    return render(request, 'game/confirmation.html')
+    if game in wishlist.all():
+        error = '''Esse jogo já está na sua lista de desejados!'''
+    else:
+        wishlist.add(game)
+
+    return render(request, 'game/confirmation.html', { 'error': error })
 
 def add_game_to_currently_playing(request, pk):
     game = get_object_or_404(Game, pk=pk)
@@ -58,9 +75,14 @@ def add_game_to_currently_playing(request, pk):
     user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
     user_games = UserGamesInformation.objects.get(pk=user.id)
     currently_playing = user_games.currently_playing
-    currently_playing.add(game)
+    error = None
 
-    return render(request, 'game/confirmation.html')
+    if game in currently_playing.all():
+        error = '''Você já adicionou esse jogo na sua lista atual!'''
+    else:
+        currently_playing.add(game)
+
+    return render(request, 'game/confirmation.html', { 'error': error })
 
 def add_game_to_finished(request, pk):
     game = get_object_or_404(Game, pk=pk)
@@ -68,6 +90,11 @@ def add_game_to_finished(request, pk):
     user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
     user_games = UserGamesInformation.objects.get(pk=user.id)
     finished = user_games.finished
-    finished.add(game)
+    error = None
 
-    return render(request, 'game/confirmation.html')
+    if game in finished.all():
+        error = '''Você já adicionou esse jogo na sua lista de finalizados!'''
+    else:
+        finished.add(game)
+
+    return render(request, 'game/confirmation.html', { 'error': error })

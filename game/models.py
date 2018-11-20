@@ -35,7 +35,9 @@ class Game(models.Model):
     genre = models.ManyToManyField(Genre)
     platforms = models.ManyToManyField(Platform)
     modes = models.ManyToManyField(Mode)
-    pic = models.ImageField(upload_to='media/')
+    pic1 = models.ImageField(upload_to='media/', blank=True, null=True)
+    pic2 = models.ImageField(upload_to='media/', blank=True, null=True)
+    pic3 = models.ImageField(upload_to='media/', blank=True, null=True)
     metacritic = models.IntegerField(default=0)
     text = models.TextField(default=" ")
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Game, Developer, Genre, Platform, Mode, UserGamesInformation
+from .models import Game, Developer, Genre, Platform, Mode, UserGamesInformation, Review
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
@@ -51,8 +51,10 @@ def profile(request):
 def game_detail(request, pk):
     game = get_object_or_404(Game, pk=pk)
     platforms = game.platforms.all()
+    reviews = Review.objects.filter(game=pk).order_by('-date')
 
-    return render(request, 'game/game_detail.html', {'game': game, 'platforms': platforms})
+    return render(request, 'game/game_detail.html', {'game': game, 'platforms': platforms,
+    'reviews': reviews})
 
 def add_game_to_wishlist(request, pk):
     game = get_object_or_404(Game, pk=pk)

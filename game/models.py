@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.validators import MaxValueValidator, MinValueValidator
+from datetime import datetime 
+from django.utils import timezone
 
 class Developer(models.Model):
     name = models.CharField(max_length=40)
@@ -55,3 +58,13 @@ class UserGamesInformation(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+class Review(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField(max_length='400')
+    note = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
+    date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return "{:s}, {:s}".format(self.author.username, self.game.name)

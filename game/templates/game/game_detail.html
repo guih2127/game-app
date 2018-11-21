@@ -58,38 +58,50 @@
                 </a>
             </div>
     {% endif %}
-    <div>
-        {% if user.is_authenticated %}
-            <div style="display:flex;">
-                <form action="{% url 'playing' game.id %}">
-                    <button type="submit"  
-                            class="btn btn-primary"
-                            style="margin-right:5px;">
-                            Estou jogando
-                    </button>
-                </form>
-                <form action="{% url 'wishlist' game.id %}">
-                    <button type="submit" 
-                            class="btn btn-primary"
-                            style="margin-right:5px;">
-                            Colocar na fila
-                    </button>
-                </form>
-                <form action="{% url 'finished' game.id %}">
-                    <button type="submit" 
-                            class="btn btn-primary"
-                            style="margin-right:5px;">
-                            Terminado
-                    </button>
-                </form>
-            </div>
-        {% endif %}
-        <div>
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="/" style="margin-top:10px;">Voltar</a>
-                </li>
-            </ul>
+    {% if user.is_authenticated %}
+        <div style="display:flex; ">
+            <form action="{% url 'playing' game.id %}">
+                <button type="submit"  
+                        class="btn btn-primary"
+                        style="margin-right:5px;">
+                        Estou jogando
+                </button>
+            </form>
+            <form action="{% url 'wishlist' game.id %}">
+                <button type="submit" 
+                        class="btn btn-primary"
+                        style="margin-right:5px;">
+                        Colocar na fila
+                </button>
+            </form>
+            <form action="{% url 'finished' game.id %}">
+                <button type="submit" 
+                        class="btn btn-primary"
+                        style="margin-right:5px;">
+                        Terminado
+                </button>
+            </form>
         </div>
+    {% endif %}
+    <div>
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="/" style="margin-top:10px;">Voltar</a>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <div class="list-group" style="margin-bottom:20px;">
+        {% for review in reviews %}
+        <a class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ review.author }}</h5>
+                <small>{{ review.date }}</small>
+            </div>
+            <p class="mb-1">{{ review.text }}</p>
+                <span class="badge badge-primary badge-pill">{{ review.note }}</span>
+        </a>
+        {% endfor %}
+        </ul>
     </div>
 {% endblock %}

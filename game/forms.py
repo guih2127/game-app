@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from .models import User, Review
 from django import forms
  
 class SignUpForm(UserCreationForm):
@@ -23,3 +23,9 @@ class SignUpForm(UserCreationForm):
         except User.DoesNotExist:
             return username
         raise forms.ValidationError("Usuário já cadastrado.")
+
+class ReviewForm(forms.ModelForm):
+
+    class Meta:
+        model = Review
+        fields = ('note', 'text')

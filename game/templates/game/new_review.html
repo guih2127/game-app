@@ -1,0 +1,30 @@
+{% extends 'game/base.html' %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+    <h1>{{ game.name }}</h1>
+    <h4>Análise do jogo</h4>
+        <textarea name="text" class="form-control" id="text"
+        placeholder="Digite sua análise"
+        maxlength="300" rows="3"></textarea>
+    </div>
+    <div class="form-group" style="max-width:80px;">
+      <label for="note">Nota</label>
+      <select class="form-control" name="note" id="note">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Postar</button>
+</form>
+{% endblock %}

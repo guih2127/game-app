@@ -58,8 +58,9 @@
                 </a>
             </div>
     {% endif %}
+
     {% if user.is_authenticated %}
-        <div style="display:flex; ">
+        <div style="display:flex; margin-bottom:20px;">
             <form action="{% url 'playing' game.id %}">
                 <button type="submit"  
                         class="btn btn-primary"
@@ -81,17 +82,22 @@
                         Terminado
                 </button>
             </form>
+
+            {% if reviewuser %}
+
+            {% else %}
+                <form action="{% url 'new_review' game.id %}">
+                    <button type="submit" 
+                            class="btn btn-success"
+                            style="margin-right:5px;">
+                            Criar análise
+                    </button>
+                </form>
+            {% endif %}
         </div>
     {% endif %}
-    <div>
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="/" style="margin-top:10px;">Voltar</a>
-            </li>
-        </ul>
-    </div>
-    <div>
-        <div class="list-group" style="margin-bottom:20px;">
+
+    <div class="list-group" style="margin-bottom:20px;">
         {% for review in reviews %}
         <a class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">

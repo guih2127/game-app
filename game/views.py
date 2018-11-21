@@ -9,7 +9,7 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from .forms import SignUpForm
+from .forms import SignUpForm, ReviewForm
  
 def register(request):
     if request.method == 'POST':
@@ -50,11 +50,13 @@ def profile(request):
 
 def game_detail(request, pk):
     game = get_object_or_404(Game, pk=pk)
+    user = request.user
     platforms = game.platforms.all()
     reviews = Review.objects.filter(game=pk).order_by('-date')
+    reviewuser = Review.objects.filter(author=user.id, game=game.id)
 
     return render(request, 'game/game_detail.html', {'game': game, 'platforms': platforms,
-    'reviews': reviews})
+    'reviews': reviews, 'reviewuser': reviewuser})
 
 def add_game_to_wishlist(request, pk):
     game = get_object_or_404(Game, pk=pk)
@@ -100,3 +102,21 @@ def add_game_to_finished(request, pk):
         finished.add(game)
 
     return render(request, 'game/confirmation.html', { 'error': error })
+
+def new_review(request, pk):
+    game = get_object_or_404(Game, pk=pk)
+    user = request.user
+    form = ReviewForm()
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.author = request.user
+            review.game = Game(pk=pk)
+            review.save()
+            return redirect('game_detail', pk=pk)
+        else:
+            form = ReviewForm()
+    
+    return render(request, 'game/new_review.html', {'form': form, 'game': game})

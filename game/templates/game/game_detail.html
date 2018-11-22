@@ -84,7 +84,6 @@
             </form>
 
             {% if reviewuser %}
-
             {% else %}
                 <form action="{% url 'new_review' game.id %}">
                     <button type="submit" 
@@ -105,7 +104,15 @@
                 <small>{{ review.date }}</small>
             </div>
             <p class="mb-1">{{ review.text }}</p>
-                <span class="badge badge-primary badge-pill">{{ review.note }}</span>
+                {% if review.note < 5 %}
+                    <span class="badge badge-danger badge-pill">{{ review.note }}</span>
+                {% endif %}
+                {% if review.note >= 5 and review.note < 7 %}
+                    <span class="badge badge-warning badge-pill">{{ review.note }}</span>
+                {% endif %}
+                {% if review.note >= 7 %}
+                    <span class="badge badge-success badge-pill">{{ review.note }}</span>
+                {% endif %}
         </a>
         {% endfor %}
         </ul>

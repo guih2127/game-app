@@ -60,6 +60,8 @@ def game_detail(request, pk):
     return render(request, 'game/game_detail.html', {'game': game, 'platforms': platforms,
     'reviews': reviews, 'reviewuser': reviewuser})
 
+
+@login_required
 def add_game_to_wishlist(request, pk):
     game = get_object_or_404(Game, pk=pk)
     user = request.user
@@ -75,6 +77,7 @@ def add_game_to_wishlist(request, pk):
 
     return render(request, 'game/confirmation.html', { 'error': error })
 
+@login_required
 def add_game_to_currently_playing(request, pk):
     game = get_object_or_404(Game, pk=pk)
     user = request.user
@@ -90,6 +93,7 @@ def add_game_to_currently_playing(request, pk):
 
     return render(request, 'game/confirmation.html', { 'error': error })
 
+@login_required
 def add_game_to_finished(request, pk):
     game = get_object_or_404(Game, pk=pk)
     user = request.user
@@ -104,7 +108,8 @@ def add_game_to_finished(request, pk):
         finished.add(game)
 
     return render(request, 'game/confirmation.html', { 'error': error })
-
+  
+@login_required
 def new_review(request, pk):
     game = get_object_or_404(Game, pk=pk)
     user = request.user

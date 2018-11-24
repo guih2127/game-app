@@ -1,4 +1,3 @@
-media
 db.sqlite3
-static
-game/__pycache__
+*.pyc
+.env

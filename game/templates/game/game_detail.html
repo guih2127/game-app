@@ -85,6 +85,15 @@
         </div>
 
         {% if reviewuser %}
+            <p>
+                <form action="{% url 'delete_review' game.id %}">
+                    <button type="submit" 
+                            class="btn btn-success"
+                            style="margin-right:5px;">
+                            Apagar análise
+                    </button>
+                </form>
+            </p>
         {% else %}
             <p>
                 <form action="{% url 'new_review' game.id %}">

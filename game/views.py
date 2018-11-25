@@ -127,3 +127,17 @@ def new_review(request, pk):
             form = ReviewForm()
     
     return render(request, 'game/new_review.html', {'form': form, 'game': game})
+
+@login_required
+def delete_review(request, pk):
+    error = None
+    game = get_object_or_404(Game, pk=pk)
+    user = request.user
+    review = Review.objects.filter(author=user.id, game=pk)
+
+    try:
+        review.delete()
+    except:
+        error = 'Não foi possível apagar o seu review.'
+    
+    return render(request, 'game/review_deleted.html', {'review': review, 'error': error })

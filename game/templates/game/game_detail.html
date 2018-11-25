@@ -82,9 +82,11 @@
                         Terminado
                 </button>
             </form>
+        </div>
 
-            {% if reviewuser %}
-            {% else %}
+        {% if reviewuser %}
+        {% else %}
+            <p>
                 <form action="{% url 'new_review' game.id %}">
                     <button type="submit" 
                             class="btn btn-success"
@@ -92,8 +94,8 @@
                             Criar análise
                     </button>
                 </form>
-            {% endif %}
-        </div>
+            </p>
+        {% endif %}
     {% endif %}
 
     <div class="list-group" style="margin-bottom:20px;">

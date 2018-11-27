@@ -141,3 +141,30 @@ def delete_review(request, pk):
         error = 'Não foi possível apagar o seu review.'
     
     return render(request, 'game/review_deleted.html', {'review': review, 'error': error })
+
+@login_required
+def finished_list(request):
+    user = request.user
+    user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
+    user_games = UserGamesInformation.objects.get(pk=user.id)
+    finished_list = user_games.finished.all()
+
+    return render(request, 'game/finished_list.html', {'finished_list': finished_list})
+
+@login_required
+def wishlist(request):
+    user = request.user
+    user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
+    user_games = UserGamesInformation.objects.get(pk=user.id)
+    wishlist = user_games.want_to_play.all()
+
+    return render(request, 'game/wishlist.html', {'wishlist': wishlist})
+
+@login_required
+def playing_list(request):
+    user = request.user
+    user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
+    user_games = UserGamesInformation.objects.get(pk=user.id)
+    playing_list = user_games.currently_playing.all()
+
+    return render(request, 'game/playing_list.html', {'playing_list': playing_list})

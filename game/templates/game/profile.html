@@ -33,7 +33,7 @@
     <div class="container" style="margin-bottom:20px;">
         <div class="row">
             <div class="col">
-            <h3><a style="color:white;" href="">Lista de desejos</a></h3>
+            <h3><a style="color:white;" href="{% url 'wishlist' %}">Lista de desejos</a></h3>
                 <div class="list-group">
                 {% for game in wishlist %}
                     <a href="{% url "game_detail" game.id %}" 
@@ -47,7 +47,7 @@
             </div>
 
             <div class="col">
-            <h3><a style="color:white;" href="">Jogando atualmente</a></h3>
+            <h3><a style="color:white;" href="{% url 'playing_list' %}">Jogando atualmente</a></h3>
                 <div class="list-group">
                 {% for game in currently_playing %}
                     <a href="{% url "game_detail" game.id %}" 
@@ -61,7 +61,7 @@
             </div>
 
             <div class="col">
-            <h3><a style="color:white;" href="">Finalizados</a></h3>
+            <h3><a style="color:white;" href="{% url 'finished_list' %}">Finalizados</a></h3>
                 <div class="list-group">
                 {% for game in finished %}
                     <a href="{% url "game_detail" game.id %}" 

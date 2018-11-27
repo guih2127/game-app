@@ -1,0 +1,27 @@
+{% extends 'game/base.html' %}
+
+{% block content %}
+    {% for game in playing_list %}
+        <a href="{% url 'game_detail' pk=game.pk %}" class="list-group-item list-group-item-action">
+                {{ game.name }}
+                {% if game.metacritic < 50 %}
+                    <span style="float:right; margin-left: 5px;" class="badge badge-danger badge-pill">
+                        {{ game.metacritic }}
+                    </span>
+                {% endif %}
+                {% if game.metacritic >= 50 and game.metacritic < 70 %}
+                    <span style="float:right; margin-left: 5px;" class="badge badge-warning badge-pill">
+                        {{ game.metacritic }}
+                    </span>
+                {% endif %}
+                {% if game.metacritic >= 70 %}
+                    <span style="float:right; margin-left: 5px;" class="badge badge-success badge-pill">
+                        {{ game.metacritic }}
+                    </span>
+                {% endif %}
+                <span style="float:right;" class="badge badge-primary badge-pill">
+                    {{ game.developer }}
+                </span>
+        </a>
+    {% endfor %}
+{% endblock %}

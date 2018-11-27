@@ -11,4 +11,7 @@ urlpatterns = [
     path('profile/<int:pk>', views.profile, name='profile'),
     path('new_review/<int:pk>', views.new_review, name='new_review'),
     path('delete_review/<int:pk>', views.delete_review, name='delete_review'),
+    path('finished_list/', views.finished_list, name="finished_list"),
+    path('wishlist/', views.wishlist, name="wishlist"),
+    path('playing_list/', views.playing_list, name="playing_list"),
 ]

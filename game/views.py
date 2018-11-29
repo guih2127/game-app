@@ -89,7 +89,7 @@ def delete_game_from_wishlist(request, pk):
     user = request.user
     user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
     user_games = UserGamesInformation.objects.get(pk=user.id)
-    wishlist = user_games.want_to_play.all()
+    wishlist = user_games.want_to_play
     error = None
 
     if game in wishlist.all():
@@ -105,7 +105,7 @@ def add_game_to_currently_playing(request, pk):
     user = request.user
     user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
     user_games = UserGamesInformation.objects.get(pk=user.id)
-    currently_playing = user_games.currently_playing.all()
+    currently_playing = user_games.currently_playing
     error = None
 
     if game in currently_playing.all():
@@ -137,7 +137,7 @@ def add_game_to_finished(request, pk):
     user = request.user
     user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
     user_games = UserGamesInformation.objects.get(pk=user.id)
-    finished = user_games.finished.all()
+    finished = user_games.finished
     error = None
 
     if game in finished.all():

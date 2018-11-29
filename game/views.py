@@ -53,10 +53,11 @@ def profile(request, pk):
 def game_detail(request, pk):
     game = get_object_or_404(Game, pk=pk)
     user = request.user
+    user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
     user_games = UserGamesInformation.objects.get(pk=user.id)
-    wishlist = user_games.want_to_play.order_by()
-    currently_playing = user_games.currently_playing.order_by()
-    finished = user_games.finished.order_by()
+    wishlist = user_games.want_to_play.all()
+    currently_playing = user_games.currently_playing.all()
+    finished = user_games.finished.all()
     platforms = game.platforms.all()
     reviews = Review.objects.filter(game=pk).order_by('-date')
     reviewuser = Review.objects.filter(author=user.id, game=game.id)
@@ -88,7 +89,7 @@ def delete_game_from_wishlist(request, pk):
     user = request.user
     user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
     user_games = UserGamesInformation.objects.get(pk=user.id)
-    wishlist = user_games.want_to_play
+    wishlist = user_games.want_to_play.all()
     error = None
 
     if game in wishlist.all():
@@ -104,7 +105,7 @@ def add_game_to_currently_playing(request, pk):
     user = request.user
     user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
     user_games = UserGamesInformation.objects.get(pk=user.id)
-    currently_playing = user_games.currently_playing
+    currently_playing = user_games.currently_playing.all()
     error = None
 
     if game in currently_playing.all():
@@ -136,7 +137,7 @@ def add_game_to_finished(request, pk):
     user = request.user
     user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
     user_games = UserGamesInformation.objects.get(pk=user.id)
-    finished = user_games.finished
+    finished = user_games.finished.all()
     error = None
 
     if game in finished.all():

@@ -53,12 +53,17 @@ def profile(request, pk):
 def game_detail(request, pk):
     game = get_object_or_404(Game, pk=pk)
     user = request.user
+    user_games = UserGamesInformation.objects.get(pk=user.id)
+    wishlist = user_games.want_to_play.order_by()
+    currently_playing = user_games.currently_playing.order_by()
+    finished = user_games.finished.order_by()
     platforms = game.platforms.all()
     reviews = Review.objects.filter(game=pk).order_by('-date')
     reviewuser = Review.objects.filter(author=user.id, game=game.id)
 
     return render(request, 'game/game_detail.html', {'game': game, 'platforms': platforms,
-    'reviews': reviews, 'reviewuser': reviewuser})
+    'reviews': reviews, 'reviewuser': reviewuser, 'finished': finished, 'wishlist': wishlist,
+    'currently_playing': currently_playing})
 
 
 @login_required
@@ -78,6 +83,22 @@ def add_game_to_wishlist(request, pk):
     return render(request, 'game/confirmation.html', { 'error': error })
 
 @login_required
+def delete_game_from_wishlist(request, pk):
+    game = get_object_or_404(Game, pk=pk)
+    user = request.user
+    user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
+    user_games = UserGamesInformation.objects.get(pk=user.id)
+    wishlist = user_games.want_to_play
+    error = None
+
+    if game in wishlist.all():
+        wishlist.remove(game)
+    else:
+        error = '''Esse jogo não está na sua lista de desejados!'''
+
+    return render(request, 'game/confirmation_delete.html', { 'error': error })
+
+@login_required
 def add_game_to_currently_playing(request, pk):
     game = get_object_or_404(Game, pk=pk)
     user = request.user
@@ -94,6 +115,22 @@ def add_game_to_currently_playing(request, pk):
     return render(request, 'game/confirmation.html', { 'error': error })
 
 @login_required
+def delete_game_from_currently_playing(request, pk):
+    game = get_object_or_404(Game, pk=pk)
+    user = request.user
+    user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
+    user_games = UserGamesInformation.objects.get(pk=user.id)
+    currently_playing = user_games.currently_playing
+    error = None
+
+    if game in currently_playing.all():
+        currently_playing.remove(game)
+    else:
+        error = '''Esse jogo não está na sua lista atual!'''
+
+    return render(request, 'game/confirmation_delete.html', { 'error': error })
+
+@login_required
 def add_game_to_finished(request, pk):
     game = get_object_or_404(Game, pk=pk)
     user = request.user
@@ -108,6 +145,23 @@ def add_game_to_finished(request, pk):
         finished.add(game)
 
     return render(request, 'game/confirmation.html', { 'error': error })
+
+@login_required
+def delete_game_from_finished(request, pk):
+    game = get_object_or_404(Game, pk=pk)
+    user = request.user
+    user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
+    user_games = UserGamesInformation.objects.get(pk=user.id)
+    finished = user_games.finished
+    error = None
+
+    if game in finished.all():
+        finished.remove(game)
+    else:
+        error = '''Esse jogo não está na sua lista de finalizados!'''
+
+    return render(request, 'game/confirmation_delete.html', { 'error': error })
+    
   
 @login_required
 def new_review(request, pk):

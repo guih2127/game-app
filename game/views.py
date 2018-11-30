@@ -63,7 +63,7 @@ def game_detail(request, pk):
         reviewuser = Review.objects.filter(author=user.id, game=game.id)
         platforms = game.platforms.all()
         reviews = Review.objects.filter(game=pk).order_by('-date')
-        user_media = Review.objects.filter(game=1).aggregate(total=Sum('note'))
+        user_media = Review.objects.filter(game=pk).aggregate(total=Sum('note'))
 
         if user_media['total'] is None:
             user_media = 0

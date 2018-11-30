@@ -15,7 +15,11 @@
             </ol>
                 <h4>Média dos usuários</h4>
             <div style="margin-bottom: 30px; margin-top:20px;">
-                {% if user_media < 5 %}
+                {% if user_media == 0 %}
+                    <div class="alert alert-dismissible alert-danger">
+                        <p>Ainda não há análises para esse jogo, mas você pode fazer a primeira!</p>
+                    </div>
+                {% elif user_media < 5 %}
                     <div class="progress">
                         <div class="progress-bar bg-danger" role="progressbar" 
                         style="width: {{ percentual }}" aria-valuenow="{{ user_media }}" 
@@ -37,11 +41,13 @@
                         </div>
                     </div>
                 {% endif %}
-                <div style="margin-top:20px;">
-                    <span style="background-color: #00BC8C;
-                     border-radius:5px; padding: 10px;">{{ user_media }}
-                    </span>
-                 </div>
+                {% if user_media != 0 %}
+                    <div style="margin-top:20px;">
+                        <span style="background-color: #00BC8C;
+                         border-radius:5px; padding: 10px;">{{ user_media }}
+                        </span>
+                     </div>
+                {% endif %}
             </div>
         </col>
 

@@ -64,10 +64,15 @@ def game_detail(request, pk):
         platforms = game.platforms.all()
         reviews = Review.objects.filter(game=pk).order_by('-date')
         user_media = Review.objects.filter(game=1).aggregate(total=Sum('note'))
-        user_media = "{:10.2f}".format(user_media['total'] / int(len(reviews)))
-        user_media = float(user_media)
-        percentual = user_media * 10
-        percentual = str(percentual) + '%'
+
+        if user_media['total'] is None:
+            user_media = 0
+            percentual = 0
+        else:
+            user_media = "{:10.2f}".format(user_media['total'] / int(len(reviews)))
+            user_media = float(user_media)
+            percentual = user_media * 10
+            percentual = str(percentual) + '%'
 
         return render(request, 'game/game_detail.html', {'game': game, 'platforms': platforms,
         'reviews': reviews, 'reviewuser': reviewuser, 'finished': finished, 'wishlist': wishlist,

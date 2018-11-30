@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Game, Developer, Genre, Platform, Mode, UserGamesInformation, Review, User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render, get_object_or_404
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
@@ -63,17 +63,20 @@ def game_detail(request, pk):
         reviewuser = Review.objects.filter(author=user.id, game=game.id)
         platforms = game.platforms.all()
         reviews = Review.objects.filter(game=pk).order_by('-date')
+        user_media = Review.objects.filter(game=1).aggregate(total=Sum('note'))
+        user_media = "{:10.2f}".format(user_media['total'] / int(len(reviews)))
 
         return render(request, 'game/game_detail.html', {'game': game, 'platforms': platforms,
         'reviews': reviews, 'reviewuser': reviewuser, 'finished': finished, 'wishlist': wishlist,
-        'currently_playing': currently_playing})
+        'currently_playing': currently_playing, 'user_media': user_media})
     
     else:
         platforms = game.platforms.all()
         reviews = Review.objects.filter(game=pk).order_by('-date')
+        user_media = Review.objects.filter(game=1).aggregate(total=Sum('note'))
+        user_media = "{:10.2f}".format(user_media['total'] / int(len(reviews)))
         return render(request, 'game/game_detail.html', {'platforms': platforms, 'reviews': reviews, 
-        'game': game })
-
+        'game': game, 'user_media': user_media})
 
 
 @login_required

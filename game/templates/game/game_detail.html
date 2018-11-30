@@ -6,14 +6,43 @@
     <div class="container">
         <h1>{{ game.name }}</h1>
         <p>{{ game.text }}</p>
-        <p>{{ user_media }}</p>
         <col>
-            <h4>Disponível para:</h4>
-            <ol class="breadcrumb">
+            <h4>Disponível para</h4>
+            <ol style="margin-top:20px; margin-bottom:40px;" class="breadcrumb">
             {% for platform in platforms %}
                 <li class="breadcrumb-item">{{ platform.name }}</li>
             {% endfor %}
             </ol>
+                <h4>Média dos usuários</h4>
+            <div style="margin-bottom: 30px; margin-top:20px;">
+                {% if user_media < 5 %}
+                    <div class="progress">
+                        <div class="progress-bar bg-danger" role="progressbar" 
+                        style="width: {{ percentual }}" aria-valuenow="{{ user_media }}" 
+                        aria-valuemin="0" aria-valuemax="100">                
+                        </div>
+                    </div>
+                {% elif user_media >= 5 and user_media < 7 %}
+                    <div class="progress">
+                        <div class="progress-bar bg-warning" role="progressbar" 
+                        style="width: {{ percentual }}" aria-valuenow="{{ user_media }}" 
+                        aria-valuemin="0" aria-valuemax="100">                
+                        </div>
+                    </div>
+                {% elif user_media >= 7%}
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" 
+                        style="width: {{ percentual }}" aria-valuenow="{{ user_media }}" 
+                        aria-valuemin="0" aria-valuemax="100">                
+                        </div>
+                    </div>
+                {% endif %}
+                <div style="margin-top:20px;">
+                    <span style="background-color: #00BC8C;
+                     border-radius:5px; padding: 10px;">{{ user_media }}
+                    </span>
+                 </div>
+            </div>
         </col>
 
     {% if game.pic1 and game.pic2 and game.pic3 %}

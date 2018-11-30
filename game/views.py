@@ -52,19 +52,28 @@ def profile(request, pk):
 
 def game_detail(request, pk):
     game = get_object_or_404(Game, pk=pk)
-    user = request.user
-    user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
-    user_games = UserGamesInformation.objects.get(pk=user.id)
-    wishlist = user_games.want_to_play.all()
-    currently_playing = user_games.currently_playing.all()
-    finished = user_games.finished.all()
-    platforms = game.platforms.all()
-    reviews = Review.objects.filter(game=pk).order_by('-date')
-    reviewuser = Review.objects.filter(author=user.id, game=game.id)
 
-    return render(request, 'game/game_detail.html', {'game': game, 'platforms': platforms,
-    'reviews': reviews, 'reviewuser': reviewuser, 'finished': finished, 'wishlist': wishlist,
-    'currently_playing': currently_playing})
+    if request.user.is_authenticated:
+        user = request.user
+        user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
+        user_games = UserGamesInformation.objects.get(pk=user.id)
+        wishlist = user_games.want_to_play.all()
+        currently_playing = user_games.currently_playing.all()
+        finished = user_games.finished.all()
+        reviewuser = Review.objects.filter(author=user.id, game=game.id)
+        platforms = game.platforms.all()
+        reviews = Review.objects.filter(game=pk).order_by('-date')
+
+        return render(request, 'game/game_detail.html', {'game': game, 'platforms': platforms,
+        'reviews': reviews, 'reviewuser': reviewuser, 'finished': finished, 'wishlist': wishlist,
+        'currently_playing': currently_playing})
+    
+    else:
+        platforms = game.platforms.all()
+        reviews = Review.objects.filter(game=pk).order_by('-date')
+        return render(request, 'game/game_detail.html', {'platforms': platforms, 'reviews': reviews, 
+        'game': game })
+
 
 
 @login_required

@@ -49,9 +49,9 @@ class Game(models.Model):
 
 class UserGamesInformation(models.Model):
     user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
-    currently_playing = models.ManyToManyField(Game, related_name='currently_playing', blank=True, null=True)
-    want_to_play = models.ManyToManyField(Game, related_name='want_to_play', blank=True, null=True)
-    finished = models.ManyToManyField(Game, related_name='finished', blank=True, null=True)
+    currently_playing = models.ManyToManyField(Game, related_name='currently_playing', blank=True)
+    want_to_play = models.ManyToManyField(Game, related_name='want_to_play', blank=True)
+    finished = models.ManyToManyField(Game, related_name='finished', blank=True)
 
     class Meta:
         verbose_name = 'User Game Information'

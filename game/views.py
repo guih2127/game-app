@@ -315,6 +315,7 @@ def user_detail(request, pk):
         compatibilidade = 0
     else:
         compatibilidade = (len(jogos_comum) * 100)/len(jogos_usuario_atual_sem_duplicata)
+        compatibilidade = float("{0:.2f}".format(compatibilidade))
     # compatibilidade = '{0:.2g}'.format(compatibilidade)
 
     return render(request, 'game/user_detail.html', {'user_reviews': user_reviews,

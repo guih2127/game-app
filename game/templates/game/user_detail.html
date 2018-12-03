@@ -7,7 +7,7 @@
     </div>
 
     <div class="list-group" style="margin-bottom:20px; border-bottom: solid 1px white;">
-        <h3><a style="color:white;" href="">Análises</h3>
+        <h3><a style="color:white;" href="">Análises</a></h3>
         <ul>
         {% for user_review in user_reviews %}
             <a class="list-group-item list-group-item-action flex-column align-items-start">
@@ -29,6 +29,13 @@
         {% endfor %}
         </ul>
     </div>
+
+    {% if current_user != user %}
+    <div>
+        <p>Você e {{ user.username }} tem {{ numero_jogos_comum }} jogos em comum na biblioteca!</p>
+        <p>A porcentagem de compatibilidade é de {{ compatibilidade }}%</p>
+    </div>
+    {% endif %}
 
     <div class="container" style="margin-bottom:20px;">
         <div class="row">

@@ -263,10 +263,65 @@ def user_detail(request, pk):
     user_reviews = Review.objects.filter(author=user)
     user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
     user_games = UserGamesInformation.objects.get(pk=user.id)
+    wishlist_complete = user_games.want_to_play.all()
+    currently_playing_complete = user_games.currently_playing.all()
+    finished_complete = user_games.finished.all()
     wishlist = user_games.want_to_play.order_by()[0:5]
     currently_playing = user_games.currently_playing.order_by()[0:5]
     finished = user_games.finished.order_by()[0:5]
 
+    current_user = request.user
+    current_user_games = UserGamesInformation.objects.get_or_create(pk=current_user.id)
+    current_user_games = UserGamesInformation.objects.get(pk=current_user.id)
+    current_wishlist_complete = current_user_games.want_to_play.all()
+    current_currently_playing_complete = current_user_games.currently_playing.all()
+    current_finished_complete = current_user_games.finished.all()   
+
+    jogos_usuario_atual = []
+    for game in current_wishlist_complete:
+        jogos_usuario_atual.append(game)
+
+    for game in current_currently_playing_complete:
+        jogos_usuario_atual.append(game)
+
+    for game in current_wishlist_complete:
+        jogos_usuario_atual.append(game)
+
+    jogos_usuario_visto = []
+    for game in wishlist_complete:
+        jogos_usuario_visto.append(game)
+
+    for game in currently_playing_complete:
+        jogos_usuario_visto.append(game)
+
+    for game in wishlist_complete:
+        jogos_usuario_visto.append(game)
+
+    jogos_comum = []
+    for game_usuario_atual in jogos_usuario_atual:
+        for game_usuario_visto in jogos_usuario_visto:
+            if game_usuario_atual == game_usuario_visto:
+                if game_usuario_visto not in jogos_comum:
+                    jogos_comum.append(game_usuario_visto)
+
+    numero_jogos_comum = len(jogos_comum)
+
+    jogos_usuario_atual_sem_duplicata = []
+    for game in jogos_usuario_atual:
+        if game not in jogos_usuario_atual_sem_duplicata:
+            jogos_usuario_atual_sem_duplicata.append(game)
+
+    compatibilidade = (len(jogos_comum) * 100)/len(jogos_usuario_atual_sem_duplicata)
+    # compatibilidade = '{0:.2g}'.format(compatibilidade)
+
     return render(request, 'game/user_detail.html', {'user_reviews': user_reviews,
     'user_games': user_games, 'wishlist': wishlist, 'currently_playing': currently_playing,
-    'finished': finished, 'user': user})
+    'finished': finished, 'user': user, 'jogos_comum': jogos_comum, 'numero_jogos_comum': numero_jogos_comum,
+    'current_user': current_user, 'compatibilidade': compatibilidade})
+
+
+
+
+
+
+

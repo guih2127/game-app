@@ -252,3 +252,21 @@ def playing_list(request):
     playing_list = user_games.currently_playing.all()
 
     return render(request, 'game/playing_list.html', {'playing_list': playing_list})
+
+def users(request):
+    users = User.objects.all()
+
+    return render(request, 'game/users.html', {'users': users})
+
+def user_detail(request, pk):
+    user = User.objects.get(pk=pk)
+    user_reviews = Review.objects.filter(author=user)
+    user_games = UserGamesInformation.objects.get_or_create(pk=user.id)
+    user_games = UserGamesInformation.objects.get(pk=user.id)
+    wishlist = user_games.want_to_play.order_by()[0:5]
+    currently_playing = user_games.currently_playing.order_by()[0:5]
+    finished = user_games.finished.order_by()[0:5]
+
+    return render(request, 'game/user_detail.html', {'user_reviews': user_reviews,
+    'user_games': user_games, 'wishlist': wishlist, 'currently_playing': currently_playing,
+    'finished': finished, 'user': user})

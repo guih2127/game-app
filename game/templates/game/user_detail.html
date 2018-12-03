@@ -1,0 +1,78 @@
+{% extends 'game/base.html' %}
+
+{% block content %}
+    <div style="margin-bottom:20px; margin-top:20px; border-bottom: solid 1px white;">
+        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+        <h6>{{ user.username }}</h6>
+    </div>
+
+    <div class="list-group" style="margin-bottom:20px; border-bottom: solid 1px white;">
+        <h3><a style="color:white;" href="">Análises</h3>
+        <ul>
+        {% for user_review in user_reviews %}
+            <a class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ user_review.game }}</h5>
+                    <small>{{ user_review.date }}</small>
+                </div>
+                <p class="mb-1">{{ user_review.text }}</p>
+                    {% if user_review.note < 5 %}
+                        <span class="badge badge-danger badge-pill">{{ user_review.note }}</span>
+                    {% endif %}
+                    {% if user_review.note >= 5 and user_review.note < 7 %}
+                        <span class="badge badge-warning badge-pill">{{ user_review.note }}</span>
+                    {% endif %}
+                    {% if user_review.note >= 7 %}
+                        <span class="badge badge-success badge-pill">{{ user_review.note }}</span>
+                    {% endif %}
+            </a>
+        {% endfor %}
+        </ul>
+    </div>
+
+    <div class="container" style="margin-bottom:20px;">
+        <div class="row">
+            <div class="col">
+            <h3><a style="color:white;" href="{% url 'wishlist' %}">Lista de desejos</a></h3>
+                <div class="list-group">
+                {% for game in wishlist %}
+                    <a href="{% url "game_detail" game.id %}" 
+                    class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">{{ game.name }}</h6>
+                        </div>
+                    </a>
+                {% endfor %}
+                </div>
+            </div>
+
+            <div class="col">
+            <h3><a style="color:white;" href="{% url 'playing_list' %}">Jogando atualmente</a></h3>
+                <div class="list-group">
+                {% for game in currently_playing %}
+                    <a href="{% url "game_detail" game.id %}" 
+                    class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">{{ game.name }}</h6>
+                        </div>
+                    </a>
+                {% endfor %}
+                </div>
+            </div>
+
+            <div class="col">
+            <h3><a style="color:white;" href="{% url 'finished_list' %}">Finalizados</a></h3>
+                <div class="list-group">
+                {% for game in finished %}
+                    <a href="{% url "game_detail" game.id %}" 
+                    class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">{{ game.name }}</h6>
+                        </div>
+                    </a>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

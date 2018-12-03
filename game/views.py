@@ -284,7 +284,7 @@ def user_detail(request, pk):
     for game in current_currently_playing_complete:
         jogos_usuario_atual.append(game)
 
-    for game in current_wishlist_complete:
+    for game in current_finished_complete:
         jogos_usuario_atual.append(game)
 
     jogos_usuario_visto = []
@@ -294,7 +294,7 @@ def user_detail(request, pk):
     for game in currently_playing_complete:
         jogos_usuario_visto.append(game)
 
-    for game in wishlist_complete:
+    for game in finished_complete:
         jogos_usuario_visto.append(game)
 
     jogos_comum = []
@@ -311,7 +311,10 @@ def user_detail(request, pk):
         if game not in jogos_usuario_atual_sem_duplicata:
             jogos_usuario_atual_sem_duplicata.append(game)
 
-    compatibilidade = (len(jogos_comum) * 100)/len(jogos_usuario_atual_sem_duplicata)
+    if len(jogos_usuario_atual) == 0 or len(jogos_usuario_visto) == 0:
+        compatibilidade = 0
+    else:
+        compatibilidade = (len(jogos_comum) * 100)/len(jogos_usuario_atual_sem_duplicata)
     # compatibilidade = '{0:.2g}'.format(compatibilidade)
 
     return render(request, 'game/user_detail.html', {'user_reviews': user_reviews,

@@ -31,22 +31,71 @@
     </div>
 
     {% if current_user != user %}
-    <div>
-        <p>Você e {{ user.username }} tem {{ numero_jogos_comum }} jogos em comum na biblioteca!</p>
-        <p>A porcentagem de compatibilidade é de {{ compatibilidade }}%</p>
-    </div>
+        {% if porcentagem < 40 %}
+            <div style="margin-top:30px; margin-bottom: 30px;">
+                <div class="alert alert-dismissible alert-danger">
+                    <p>Poxa! O grau de compatibilidade entre você e {{ user.username }} é <strong>{{ compatibilidade }}</strong>!</p>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: {{ percentual }}" 
+                    aria-valuenow="{{ porcentagem }}" 
+                    aria-valuemin="0" 
+                    ria-valuemax="100">
+                    </div>
+                </div>
+            </div>
+        {% elif porcentagem  >= 40 and porcentagem < 70 %}
+            <div style="margin-top:30px; margin-bottom: 30px;">
+                <div class="alert alert-dismissible alert-warning">
+                    <p>Hmm! O grau de compatibilidade entre você e {{ user.username }} é <strong>{{ compatibilidade }}</strong>!</p>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: {{ percentual }}" 
+                    aria-valuenow="{{ porcentagem }}" 
+                    aria-valuemin="0" 
+                    ria-valuemax="100">
+                    </div>
+                </div>
+            </div>
+        {% elif porcentagem  >= 70 and porcentagem < 90 %}
+            <div style="margin-top:30px; margin-bottom: 30px;">
+                <div class="alert alert-dismissible alert-info">
+                    <p>Ótimo! O grau de compatibilidade entre você e {{ user.username }} é <strong>{{ compatibilidade }}</strong>!</p>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{ percentual }}" 
+                    aria-valuenow="{{ porcentagem }}" 
+                    aria-valuemin="0" 
+                    ria-valuemax="100">
+                    </div>
+                </div>
+            </div>
+        {% elif porcentagem  >= 90 %}
+            <div style="margin-top:30px; margin-bottom: 30px;">
+                <div class="alert alert-dismissible alert-success">
+                    <p>Perfeito! O grau de compatibilidade entre você e {{ user.username }} é <strong>{{ compatibilidade }}</strong>!</p>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ percentual }}" 
+                    aria-valuenow="{{ porcentagem }}" 
+                    aria-valuemin="0" 
+                    ria-valuemax="100">
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     {% endif %}
 
     <div class="container" style="margin-bottom:20px;">
         <div class="row">
             <div class="col">
             <h3><a style="color:white;" href="{% url 'wishlist' %}">Lista de desejos</a></h3>
-                <div class="list-group">
+                <div class="list-group">    
                 {% for game in wishlist %}
-                    <a href="{% url "game_detail" game.id %}" 
+                    <a href="{% url "game_detail" game.id %}"
                     class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">{{ game.name }}</h6>
+                            <h6 class="mb-1">{{ game.name }}</h6>
                         </div>
                     </a>
                 {% endfor %}

@@ -313,15 +313,31 @@ def user_detail(request, pk):
 
     if len(jogos_usuario_atual) == 0 or len(jogos_usuario_visto) == 0:
         compatibilidade = 0
+        porcentagem = 0
     else:
-        compatibilidade = (len(jogos_comum) * 100)/len(jogos_usuario_atual_sem_duplicata)
-        compatibilidade = float("{0:.2f}".format(compatibilidade))
+        porcentagem = (len(jogos_comum) * 100)/len(jogos_usuario_atual_sem_duplicata)
+        porcentagem = float("{0:.2f}".format(porcentagem))
+
+    percentual = str(porcentagem) + '%'
+
+    if porcentagem < 40:
+        compatibilidade = 'BAIXO'
+
+    elif porcentagem >= 40 and porcentagem < 70:
+        compatibilidade = 'MÉDIO'
+
+    elif porcentagem >= 70 and porcentagem < 90:
+        compatibilidade = 'ALTO'
+
+    else:
+        compatibilidade = 'SUPER'
+
     # compatibilidade = '{0:.2g}'.format(compatibilidade)
 
     return render(request, 'game/user_detail.html', {'user_reviews': user_reviews,
     'user_games': user_games, 'wishlist': wishlist, 'currently_playing': currently_playing,
     'finished': finished, 'user': user, 'jogos_comum': jogos_comum, 'numero_jogos_comum': numero_jogos_comum,
-    'current_user': current_user, 'compatibilidade': compatibilidade})
+    'current_user': current_user, 'porcentagem': porcentagem, 'compatibilidade': compatibilidade, 'percentual': percentual})
 
 
 

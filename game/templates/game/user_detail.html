@@ -2,11 +2,11 @@
 
 {% block content %}
 <h2 style="margin-bottom:20px;">{{ user.first_name }} {{ user.last_name }}</h2>
-<div class="container" style="border: 1px solid white; border-radius:5px; padding:30px;
+<div style="margin-bottom:20px; margin-top:20px;">
+    <h6>{{ user.username }}</h6>
+</div>
+<div class="container" style="border: 1px solid white; border-radius:5px; padding:20px;
 margin-bottom:10px;">
-    <div style="margin-bottom:20px; margin-top:20px; border-bottom: solid 1px white;">
-        <h6>{{ user.username }}</h6>
-    </div>
 
     <div class="list-group" style="margin-bottom:20px; border-bottom: solid 1px white;">
         <h3><a style="color:white;" href="">Análises</a></h3>

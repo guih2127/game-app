@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Game, Developer, Genre, Platform, Mode, UserGamesInformation, Review, User
+from .models import Game, Developer, Genre, Platform, Mode, UserGamesInformation, Review, User, Friends
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, Sum
@@ -45,10 +45,13 @@ def profile(request, pk):
     wishlist = user_games.want_to_play.order_by()[0:5]
     currently_playing = user_games.currently_playing.order_by()[0:5]
     finished = user_games.finished.order_by()[0:5]
+    user_friends = Friends.objects.get_or_create(pk=user.id)
+    user_friends = Friends.objects.get(pk=user.id)
+    friends = user_friends.friends.order_by()[0:5]
 
     return render(request, 'game/profile.html', {'user_reviews': user_reviews,
     'user_games': user_games, 'wishlist': wishlist, 'currently_playing': currently_playing,
-    'finished': finished})
+    'finished': finished, 'friends':friends})
 
 def game_detail(request, pk):
     game = get_object_or_404(Game, pk=pk)

@@ -2,14 +2,16 @@
 
 {% block content %}
 <h2 style="margin-bottom:20px;">{{ user.first_name }} {{ user.last_name }}</h2>
-<div class="container" style="border: 1px solid white; border-radius:5px; 
-padding:30px; margin-bottom:10px;">
-    <div class="profile" style="margin-bottom:20px; margin-top:20px; border-bottom: solid 1px white;">
+<div class="profile" style="margin-bottom:20px; ">
         <h6>{{ user.username }}</h6>
-    </div>
+</div>
 
+<div class="container" style="border: 1px solid white; border-radius:5px; 
+padding:20px; margin-bottom:10px;">
+<div class="row">
+    <div class="col-sm-9">
     <div class="list-group" style="margin-bottom:20px; border-bottom: solid 1px white;">
-        <h3><a style="color:white;" href="">Análises</h3>
+        <h3><a style="color:white;" href="">Análises</a></h3>
         <ul>
         {% for user_review in user_reviews %}
             <a class="list-group-item list-group-item-action flex-column align-items-start">
@@ -31,53 +33,64 @@ padding:30px; margin-bottom:10px;">
         {% endfor %}
         </ul>
     </div>
-
-    <div class="container" style="margin-bottom:20px;">
-        <div class="row">
-            <div class="col">
-            <h3><a style="color:white;" href="{% url 'wishlist' %}">Lista de desejos</a></h3>
-                <div class="list-group">
-                {% for game in wishlist %}
-                    <a href="{% url "game_detail" game.id %}" 
-                    class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">{{ game.name }}</h6>
-                        </div>
-                    </a>
-                {% endfor %}
-                </div>
+    <div class="row">
+        <div class="col">
+        <h4><a style="color:white;" href="{% url 'wishlist' %}">Lista de desejos</a></h4>
+            <div class="list-group">
+            {% for game in wishlist %}
+                <a href="{% url "game_detail" game.id %}" 
+                class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                    <h6 class="mb-1">{{ game.name }}</h6>
+                    </div>
+                </a>
+            {% endfor %}
             </div>
-
-            <div class="col">
-            <h3><a style="color:white;" href="{% url 'playing_list' %}">Jogando atualmente</a></h3>
-                <div class="list-group">
-                {% for game in currently_playing %}
-                    <a href="{% url "game_detail" game.id %}" 
-                    class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">{{ game.name }}</h6>
-                        </div>
-                    </a>
-                {% endfor %}
-                </div>
+        </div>
+        <div class="col">
+        <h4><a style="color:white;" href="{% url 'playing_list' %}">Jogando atualmente</a></h4>
+            <div class="list-group">
+            {% for game in currently_playing %}
+                <a href="{% url "game_detail" game.id %}" 
+                class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                    <h6 class="mb-1">{{ game.name }}</h6>
+                    </div>
+                </a>
+            {% endfor %}
             </div>
-
-            <div class="col">
-            <h3><a style="color:white;" href="{% url 'finished_list' %}">Finalizados</a></h3>
-                <div class="list-group">
-                {% for game in finished %}
-                    <a href="{% url "game_detail" game.id %}" 
-                    class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">{{ game.name }}</h6>
-                        </div>
-                    </a>
-                {% endfor %}
-                </div>
+        </div>
+        <div class="col">
+        <h4><a style="color:white;" href="/">Finalizados</a></h4>
+            <div class="list-group">
+            {% for game in finished %}
+                <a href="{% url "game_detail" game.id %}" 
+                class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                    <h6 class="mb-1">{{ game.name }}</h6>
+                    </div>
+                </a>
+            {% endfor %}
             </div>
         </div>
     </div>
 </div>
+    <div class="col-sm-3">
+        <h4>Lista de amigos</h4>
+        <div class="list-group">
+            {% for friend in friends %}
+            <a href="{% url "user_detail" friend.id %}" 
+            class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1">{{ friend.username }}</h6>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+</div>
+
 <button style="margin-bottom:20px; margin-top:10px;" 
 onclick="location.href='/'" 
 class="btn btn-primary">Voltar

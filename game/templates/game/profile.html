@@ -1,6 +1,8 @@
 {% extends 'game/base.html' %}
 
 {% block content %}
+<div class="container" style="border: 1px solid white; border-radius:5px; 
+padding:30px; margin-bottom:10px;">
     <div class="profile" style="margin-bottom:20px; margin-top:20px; border-bottom: solid 1px white;">
         <h2>{{ user.first_name }} {{ user.last_name }}</h2>
         <h6>{{ user.username }}</h6>
@@ -75,4 +77,9 @@
             </div>
         </div>
     </div>
+</div>
+<button style="margin-bottom:20px; margin-top:10px;" 
+onclick="location.href='/'" 
+class="btn btn-primary">Voltar
+</button>
 {% endblock %}

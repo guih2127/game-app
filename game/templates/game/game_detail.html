@@ -3,7 +3,8 @@
 
 {% block content %}
     {% load staticfiles %}
-    <div class="container">
+    <div class="container" style="border: 1px solid white; border-radius:5px; 
+    padding:30px; margin-bottom:10px;">
         <h1>{{ game.name }}</h1>
         <p>{{ game.text }}</p>
         <col>
@@ -208,4 +209,9 @@
         {% endfor %}
         </ul>
     </div>
+</div>
+    <button style="margin-bottom:20px; margin-top:10px;" 
+    onclick="location.href='/'" 
+    class="btn btn-primary">Voltar
+    </button>
 {% endblock %}

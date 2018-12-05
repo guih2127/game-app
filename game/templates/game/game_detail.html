@@ -2,10 +2,9 @@
 {% load staticfiles %}
 
 {% block content %}
-    {% load staticfiles %}
+    <h1 style="margin-bottom:20px;">{{ game.name }}</h1>
     <div class="container" style="border: 1px solid white; border-radius:5px; 
     padding:30px; margin-bottom:10px;">
-        <h1>{{ game.name }}</h1>
         <p>{{ game.text }}</p>
         <col>
             <h4>Disponível para</h4>
@@ -188,7 +187,7 @@
         {% endif %}
     {% endif %}
 
-    <div class="list-group" style="margin-bottom:20px;">
+    <div class="list-group">
         {% for review in reviews %}
         <a class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">

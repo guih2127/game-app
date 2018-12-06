@@ -274,6 +274,9 @@ def user_detail(request, pk):
     finished = user_games.finished.order_by()[0:5]
 
     current_user = request.user
+    friends = Friends.objects.get_or_create(user=current_user)
+    friends = Friends.objects.get(user=current_user)
+    friends = friends.friends.all()
     current_user_games = UserGamesInformation.objects.get_or_create(pk=current_user.id)
     current_user_games = UserGamesInformation.objects.get(pk=current_user.id)
     current_wishlist_complete = current_user_games.want_to_play.all()
@@ -340,7 +343,8 @@ def user_detail(request, pk):
     return render(request, 'game/user_detail.html', {'user_reviews': user_reviews,
     'user_games': user_games, 'wishlist': wishlist, 'currently_playing': currently_playing,
     'finished': finished, 'user': user, 'jogos_comum': jogos_comum, 'numero_jogos_comum': numero_jogos_comum,
-    'current_user': current_user, 'porcentagem': porcentagem, 'compatibilidade': compatibilidade, 'percentual': percentual})
+    'current_user': current_user, 'porcentagem': porcentagem, 'compatibilidade': compatibilidade, 
+    'percentual': percentual, 'friends':friends})
 
 
 

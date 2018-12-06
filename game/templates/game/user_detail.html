@@ -86,6 +86,14 @@ margin-bottom:10px;">
                 </div>
             </div>
         {% endif %}
+        {% if user not in friends%}
+            <button style="margin-bottom:30px;"
+            type="button" class="btn btn-primary">Adicionar amigo</button>
+        {% else %}
+            <button style="margin-bottom:30px;"
+            type="button" class="btn btn-danger">Remover amigo</button>           
+        {% endif %}
+
     {% endif %}
 
     <div class="container" style="margin-bottom:20px;">

@@ -54,6 +54,15 @@ class Friends(models.Model):
     class Meta:
         verbose_name = 'Friend'
 
+    def __str__(self):
+        return self.user.username
+
+class UserRequests(models.Model):
+    user = models.ForeignKey(User, related_name='user_request', on_delete=models.CASCADE)
+    requests = models.ManyToManyField(User, related_name='requests', blank=True)
+
+    class Meta:
+        verbose_name = 'User Request'
 
     def __str__(self):
         return self.user.username

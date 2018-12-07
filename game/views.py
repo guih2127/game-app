@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Game, Developer, Genre, Platform, Mode, UserGamesInformation, Review, User, Friends
+from .models import UserRequests
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, Sum
@@ -24,6 +25,9 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 def game_list(request):
+    if request.user.is_authenticated:
+        user = request.user
+
     all_games = Game.objects.all().order_by('-release_date')
     paginator = Paginator(all_games, 10)
 
@@ -48,10 +52,13 @@ def profile(request, pk):
     user_friends = Friends.objects.get_or_create(pk=user.id)
     user_friends = Friends.objects.get(pk=user.id)
     friends = user_friends.friends.order_by()[0:5]
+    requests = UserRequests.objects.get_or_create(user=user)
+    requests = UserRequests.objects.get(user=user)
+    requests = requests.requests.all()
 
     return render(request, 'game/profile.html', {'user_reviews': user_reviews,
     'user_games': user_games, 'wishlist': wishlist, 'currently_playing': currently_playing,
-    'finished': finished, 'friends':friends})
+    'finished': finished, 'friends':friends, 'requests': requests})
 
 def game_detail(request, pk):
     game = get_object_or_404(Game, pk=pk)

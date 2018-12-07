@@ -6,6 +6,15 @@
         <h6>{{ user.username }}</h6>
 </div>
 
+{% if requests %}
+<div class="alert alert-dismissible alert-warning">
+  <h4 class="alert-heading">Epaaaa!</h4>
+  <p class="mb-0">Você possui pedidos de amizade não aceitos! 
+  <a href="#" class="alert-link">Clique aqui</a> 
+  para aceitá-los.</p>
+</div>
+{% endif %}
+
 <div class="container" style="border: 1px solid white; border-radius:5px; 
 padding:20px; margin-bottom:10px;">
 <div class="row">

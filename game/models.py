@@ -48,7 +48,7 @@ class Game(models.Model):
         return self.name
 
 class Friends(models.Model):
-    user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, default=None, related_name='user', on_delete=models.CASCADE)
     friends = models.ManyToManyField(User, related_name='friends', blank=True)
 
     class Meta:
@@ -58,7 +58,7 @@ class Friends(models.Model):
         return self.user.username
 
 class UserRequests(models.Model):
-    user = models.ForeignKey(User, related_name='user_request', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, default=None, related_name='user_request', on_delete=models.CASCADE)
     requests = models.ManyToManyField(User, related_name='requests', blank=True)
 
     class Meta:
@@ -68,7 +68,7 @@ class UserRequests(models.Model):
         return self.user.username
 
 class UserGamesInformation(models.Model):
-    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, default=None, primary_key=True, on_delete=models.CASCADE)
     currently_playing = models.ManyToManyField(Game, related_name='currently_playing', blank=True)
     want_to_play = models.ManyToManyField(Game, related_name='want_to_play', blank=True)
     finished = models.ManyToManyField(Game, related_name='finished', blank=True)

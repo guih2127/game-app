@@ -49,8 +49,8 @@ def profile(request, pk):
     wishlist = user_games.want_to_play.order_by()[0:5]
     currently_playing = user_games.currently_playing.order_by()[0:5]
     finished = user_games.finished.order_by()[0:5]
-    user_friends = Friends.objects.get_or_create(pk=user.id)
-    user_friends = Friends.objects.get(pk=user.id)
+    user_friends = Friends.objects.get_or_create(user=user)
+    user_friends = Friends.objects.get(user=user)
     friends = user_friends.friends.order_by()[0:5]
     requests = UserRequests.objects.get_or_create(user=user)
     requests = UserRequests.objects.get(user=user)
@@ -281,77 +281,108 @@ def user_detail(request, pk):
     finished = user_games.finished.order_by()[0:5]
 
     current_user = request.user
-    friends = Friends.objects.get_or_create(user=current_user)
-    friends = Friends.objects.get(user=current_user)
-    friends = friends.friends.all()
-    current_user_games = UserGamesInformation.objects.get_or_create(pk=current_user.id)
-    current_user_games = UserGamesInformation.objects.get(pk=current_user.id)
-    current_wishlist_complete = current_user_games.want_to_play.all()
-    current_currently_playing_complete = current_user_games.currently_playing.all()
-    current_finished_complete = current_user_games.finished.all()   
 
-    jogos_usuario_atual = []
-    for game in current_wishlist_complete:
-        jogos_usuario_atual.append(game)
+    if request.user.is_anonymous == False:
+        friends = Friends.objects.get_or_create(user=current_user)
+        friends = Friends.objects.get(user=current_user)
+        friends = friends.friends.all()
+        current_user_games = UserGamesInformation.objects.get_or_create(pk=current_user.id)
+        current_user_games = UserGamesInformation.objects.get(pk=current_user.id)
+        current_wishlist_complete = current_user_games.want_to_play.all()
+        current_currently_playing_complete = current_user_games.currently_playing.all()
+        current_finished_complete = current_user_games.finished.all()   
 
-    for game in current_currently_playing_complete:
-        jogos_usuario_atual.append(game)
+        jogos_usuario_atual = []
+        for game in current_wishlist_complete:
+            jogos_usuario_atual.append(game)
 
-    for game in current_finished_complete:
-        jogos_usuario_atual.append(game)
+        for game in current_currently_playing_complete:
+            jogos_usuario_atual.append(game)
 
-    jogos_usuario_visto = []
-    for game in wishlist_complete:
-        jogos_usuario_visto.append(game)
+        for game in current_finished_complete:
+            jogos_usuario_atual.append(game)
 
-    for game in currently_playing_complete:
-        jogos_usuario_visto.append(game)
+        jogos_usuario_visto = []
+        for game in wishlist_complete:
+            jogos_usuario_visto.append(game)
 
-    for game in finished_complete:
-        jogos_usuario_visto.append(game)
+        for game in currently_playing_complete:
+            jogos_usuario_visto.append(game)
 
-    jogos_comum = []
-    for game_usuario_atual in jogos_usuario_atual:
-        for game_usuario_visto in jogos_usuario_visto:
-            if game_usuario_atual == game_usuario_visto:
-                if game_usuario_visto not in jogos_comum:
-                    jogos_comum.append(game_usuario_visto)
+        for game in finished_complete:
+            jogos_usuario_visto.append(game)
 
-    numero_jogos_comum = len(jogos_comum)
+        jogos_comum = []
+        for game_usuario_atual in jogos_usuario_atual:
+            for game_usuario_visto in jogos_usuario_visto:
+                if game_usuario_atual == game_usuario_visto:
+                    if game_usuario_visto not in jogos_comum:
+                        jogos_comum.append(game_usuario_visto)
 
-    jogos_usuario_atual_sem_duplicata = []
-    for game in jogos_usuario_atual:
-        if game not in jogos_usuario_atual_sem_duplicata:
-            jogos_usuario_atual_sem_duplicata.append(game)
+        numero_jogos_comum = len(jogos_comum)
 
-    if len(jogos_usuario_atual) == 0 or len(jogos_usuario_visto) == 0:
-        compatibilidade = 0
-        porcentagem = 0
+        jogos_usuario_atual_sem_duplicata = []
+        for game in jogos_usuario_atual:
+            if game not in jogos_usuario_atual_sem_duplicata:
+                jogos_usuario_atual_sem_duplicata.append(game)
+
+        if len(jogos_usuario_atual) == 0 or len(jogos_usuario_visto) == 0:
+            compatibilidade = 0
+            porcentagem = 0
+        else:
+            porcentagem = (len(jogos_comum) * 100)/len(jogos_usuario_atual_sem_duplicata)
+            porcentagem = float("{0:.2f}".format(porcentagem))
+
+        percentual = str(porcentagem) + '%'
+
+        if porcentagem < 40:
+            compatibilidade = 'BAIXO'
+
+        elif porcentagem >= 40 and porcentagem < 70:
+            compatibilidade = 'MÉDIO'
+
+        elif porcentagem >= 70 and porcentagem < 90:
+            compatibilidade = 'ALTO'
+
+        else:
+            compatibilidade = 'SUPER'
+
+        # compatibilidade = '{0:.2g}'.format(compatibilidade)
+
+        return render(request, 'game/user_detail.html', {'user_reviews': user_reviews,
+        'user_games': user_games, 'wishlist': wishlist, 'currently_playing': currently_playing,
+        'finished': finished, 'user_detail': user, 'jogos_comum': jogos_comum, 'numero_jogos_comum': numero_jogos_comum,
+        'current_user': current_user, 'porcentagem': porcentagem, 'compatibilidade': compatibilidade, 
+        'percentual': percentual, 'friends':friends})
+
     else:
-        porcentagem = (len(jogos_comum) * 100)/len(jogos_usuario_atual_sem_duplicata)
-        porcentagem = float("{0:.2f}".format(porcentagem))
+         return render(request, 'game/user_detail.html', {'user_reviews': user_reviews,
+        'user_games': user_games, 'wishlist': wishlist, 'currently_playing': currently_playing,
+        'finished': finished, 'user_detail': user})
 
-    percentual = str(porcentagem) + '%'
+@login_required
+def delete_friend(request, pk):
+    user = request.user
+    user_friends = Friends.objects.get(user=user)
+    friend = User.objects.get(pk=pk)
+    user_friends.friends.remove(friend)
+    message = "Esse usuário já não é mais seu amigo."
 
-    if porcentagem < 40:
-        compatibilidade = 'BAIXO'
+    return render(request, 'game/friend_confirmation.html', {'message': message})
 
-    elif porcentagem >= 40 and porcentagem < 70:
-        compatibilidade = 'MÉDIO'
+@login_required
+def add_friend(request, pk):
+    user = request.user
+    user_friends = Friends.objects.get(user=user)
+    friend = User.objects.get(pk=pk)
+    user_friends.friends.add(friend)
+    message = "Esse usuário agora é seu amigo!"
 
-    elif porcentagem >= 70 and porcentagem < 90:
-        compatibilidade = 'ALTO'
+    return render(request, 'game/friend_confirmation.html', {'message': message})
 
-    else:
-        compatibilidade = 'SUPER'
 
-    # compatibilidade = '{0:.2g}'.format(compatibilidade)
 
-    return render(request, 'game/user_detail.html', {'user_reviews': user_reviews,
-    'user_games': user_games, 'wishlist': wishlist, 'currently_playing': currently_playing,
-    'finished': finished, 'user': user, 'jogos_comum': jogos_comum, 'numero_jogos_comum': numero_jogos_comum,
-    'current_user': current_user, 'porcentagem': porcentagem, 'compatibilidade': compatibilidade, 
-    'percentual': percentual, 'friends':friends})
+
 
 
 

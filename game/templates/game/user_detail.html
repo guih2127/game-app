@@ -1,9 +1,9 @@
 {% extends 'game/base.html' %}
 
 {% block content %}
-<h2 style="margin-bottom:20px;">{{ user.first_name }} {{ user.last_name }}</h2>
+<h2 style="margin-bottom:20px;">{{ user_detail.first_name }} {{ user_detail.last_name }}</h2>
 <div style="margin-bottom:20px; margin-top:20px;">
-    <h6>{{ user.username }}</h6>
+    <h6>{{ user_detail.username }}</h6>
 </div>
 <div class="container" style="border: 1px solid white; border-radius:5px; padding:20px;
 margin-bottom:10px;">
@@ -32,11 +32,12 @@ margin-bottom:10px;">
         </ul>
     </div>
 
-    {% if current_user != user %}
+    {% if user.is_authenticated %}
+    {% if current_user != user_detail %}
         {% if porcentagem < 40 %}
             <div style="margin-top:30px; margin-bottom: 30px;">
                 <div class="alert alert-dismissible alert-danger">
-                    <p>Poxa! O grau de compatibilidade entre você e {{ user.username }} é <strong>{{ compatibilidade }}</strong>!</p>
+                    <p>Poxa! O grau de compatibilidade entre você e {{ user_detail.username }} é <strong>{{ compatibilidade }}</strong>!</p>
                 </div>
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: {{ percentual }}" 
@@ -49,7 +50,7 @@ margin-bottom:10px;">
         {% elif porcentagem  >= 40 and porcentagem < 70 %}
             <div style="margin-top:30px; margin-bottom: 30px;">
                 <div class="alert alert-dismissible alert-warning">
-                    <p>Hmm! O grau de compatibilidade entre você e {{ user.username }} é <strong>{{ compatibilidade }}</strong>!</p>
+                    <p>Hmm! O grau de compatibilidade entre você e {{ user_detail.username }} é <strong>{{ compatibilidade }}</strong>!</p>
                 </div>
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: {{ percentual }}" 
@@ -62,7 +63,7 @@ margin-bottom:10px;">
         {% elif porcentagem  >= 70 and porcentagem < 90 %}
             <div style="margin-top:30px; margin-bottom: 30px;">
                 <div class="alert alert-dismissible alert-info">
-                    <p>Ótimo! O grau de compatibilidade entre você e {{ user.username }} é <strong>{{ compatibilidade }}</strong>!</p>
+                    <p>Ótimo! O grau de compatibilidade entre você e {{ user_detail.username }} é <strong>{{ compatibilidade }}</strong>!</p>
                 </div>
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{ percentual }}" 
@@ -75,7 +76,7 @@ margin-bottom:10px;">
         {% elif porcentagem  >= 90 %}
             <div style="margin-top:30px; margin-bottom: 30px;">
                 <div class="alert alert-dismissible alert-success">
-                    <p>Perfeito! O grau de compatibilidade entre você e {{ user.username }} é <strong>{{ compatibilidade }}</strong>!</p>
+                    <p>Perfeito! O grau de compatibilidade entre você e {{ user_detail.username }} é <strong>{{ compatibilidade }}</strong>!</p>
                 </div>
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ percentual }}" 
@@ -86,14 +87,24 @@ margin-bottom:10px;">
                 </div>
             </div>
         {% endif %}
-        {% if user not in friends%}
-            <button style="margin-bottom:30px;"
-            type="button" class="btn btn-primary">Adicionar amigo</button>
+        {% if user_detail not in friends %}
+            <form action="{% url 'add_friend' user_detail.id %}">
+                <button type="submit"  
+                        class="btn btn-primary"
+                        style="margin-bottom:25px;">
+                        Adicionar aos amigos
+                </button>
+            </form>
         {% else %}
-            <button style="margin-bottom:30px;"
-            type="button" class="btn btn-danger">Remover amigo</button>           
+            <form action="{% url 'delete_friend' user_detail.id %}">
+                <button type="submit"  
+                        class="btn btn-primary"
+                        style="margin-bottom:25px;">
+                        Remover da lista de amigos
+                </button>
+            </form>          
         {% endif %}
-
+        {% endif %}
     {% endif %}
 
     <div class="container" style="margin-bottom:20px;">

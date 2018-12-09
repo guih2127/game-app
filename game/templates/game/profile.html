@@ -9,9 +9,9 @@
 {% if requests %}
 <div class="alert alert-dismissible alert-warning">
   <h4 class="alert-heading">Epaaaa!</h4>
-  <p class="mb-0">Você possui pedidos de amizade não aceitos! 
-  <a href="#" class="alert-link">Clique aqui</a> 
-  para aceitá-los.</p>
+  <p class="mb-0">Alguns usuários te adicionaram recentemente,
+  <a href="{% url 'friend_requests_list' %}" class="alert-link">Clique aqui</a> 
+  para adicioná-los também. </p>
 </div>
 {% endif %}
 

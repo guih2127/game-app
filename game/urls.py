@@ -20,5 +20,8 @@ urlpatterns = [
     path('users', views.users, name="users"),
     path('user_detail/<int:pk>', views.user_detail, name="user_detail"),
     path('add_friend/<int:pk>', views.add_friend, name='add_friend'),
+    path('accept_friend/<int:pk>', views.accept_friend, name='accept_friend'),
+    path('dont_accept_friend/<int:pk>', views.dont_accept_friend, name='dont_accept_friend'),
     path('delete_friend/<int:pk>', views.delete_friend, name='delete_friend'),
+    path('friend_requests_list', views.friend_requests_list, name='friend_requests_list'),
 ]

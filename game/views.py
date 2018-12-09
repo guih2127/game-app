@@ -351,7 +351,8 @@ def user_detail(request, pk):
 
         return render(request, 'game/user_detail.html', {'user_reviews': user_reviews,
         'user_games': user_games, 'wishlist': wishlist, 'currently_playing': currently_playing,
-        'finished': finished, 'user_detail': user, 'jogos_comum': jogos_comum, 'numero_jogos_comum': numero_jogos_comum,
+        'finished': finished, 'user_detail': user, 'jogos_comum': jogos_comum, 
+        'numero_jogos_comum': numero_jogos_comum,
         'current_user': current_user, 'porcentagem': porcentagem, 'compatibilidade': compatibilidade, 
         'percentual': percentual, 'friends':friends})
 
@@ -377,16 +378,47 @@ def add_friend(request, pk):
     friend = User.objects.get(pk=pk)
     user_friends.friends.add(friend)
     message = "Esse usuário agora é seu amigo!"
+    
+    requests = UserRequests.objects.get_or_create(user=friend)
+    requests = UserRequests.objects.get(user=friend)
+
+    other_user_friends = Friends.objects.get(user=friend)
+
+    if user in other_user_friends.friends.all():
+        pass
+    else:
+        requests.requests.add(user)
 
     return render(request, 'game/friend_confirmation.html', {'message': message})
 
+@login_required
+def accept_friend(request, pk):
+    user = request.user
+    user_friends = Friends.objects.get(user=user)
+    friend = User.objects.get(pk=pk)
+    user_friends.friends.add(friend)
+    message = "Esse usuário agora é seu amigo!"
 
+    requests = UserRequests.objects.get(user=user)
+    requests = requests.requests.remove(pk)
 
+    return render(request, 'game/friend_confirmation.html', {'message': message})
 
+@login_required
+def dont_accept_friend(request, pk):
+    user = request.user  
+    requests = UserRequests.objects.get(user=user)
+    requests = requests.requests.remove(pk)
 
+    message = "Você resolveu não adicionar este usuário à sua lista de amigos."
 
+    return render(request, 'game/friend_confirmation.html', {'message': message}) 
 
+@login_required
+def friend_requests_list(request):
+    user = request.user
+    requests = UserRequests.objects.get_or_create(user=user)
+    requests = UserRequests.objects.get(user=user)
+    requests = requests.requests.all()
 
-
-
-
+    return render(request, 'game/friend_requests_list.html', {'requests': requests})

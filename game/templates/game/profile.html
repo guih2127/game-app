@@ -15,12 +15,12 @@
 </div>
 {% endif %}
 
-<div class="container" style="border: 1px solid white; border-radius:5px; 
+<div class="container" style="border: 1px solid black; 
 padding:20px; margin-bottom:10px;">
 <div class="row">
     <div class="col-sm-9">
-    <div class="list-group" style="margin-bottom:20px; border-bottom: solid 1px white;">
-        <h3><a style="color:white;" href="">Análises</a></h3>
+    <div class="list-group" style="margin-bottom:20px; border-bottom: solid 1px black;">
+        <h3><a style="color:black;" href="">Análises</a></h3>
         <ul>
         {% for user_review in user_reviews %}
             <a class="list-group-item list-group-item-action flex-column align-items-start">
@@ -44,7 +44,7 @@ padding:20px; margin-bottom:10px;">
     </div>
     <div class="row">
         <div class="col">
-        <h4><a style="color:white;" href="{% url 'wishlist' %}">Lista de desejos</a></h4>
+        <h4><a style="color:black;" href="{% url 'wishlist' %}">Lista de desejos</a></h4>
             <div class="list-group">
             {% for game in wishlist %}
                 <a href="{% url "game_detail" game.id %}" 
@@ -57,7 +57,7 @@ padding:20px; margin-bottom:10px;">
             </div>
         </div>
         <div class="col">
-        <h4><a style="color:white;" href="{% url 'playing_list' %}">Jogando atualmente</a></h4>
+        <h4><a style="color:black;" href="{% url 'playing_list' %}">Jogando atualmente</a></h4>
             <div class="list-group">
             {% for game in currently_playing %}
                 <a href="{% url "game_detail" game.id %}" 
@@ -70,7 +70,7 @@ padding:20px; margin-bottom:10px;">
             </div>
         </div>
         <div class="col">
-        <h4><a style="color:white;" href="/">Finalizados</a></h4>
+        <h4><a style="color:black;" href="/">Finalizados</a></h4>
             <div class="list-group">
             {% for game in finished %}
                 <a href="{% url "game_detail" game.id %}" 

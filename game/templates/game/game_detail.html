@@ -3,12 +3,12 @@
 
 {% block content %}
     <h1 style="margin-bottom:20px;">{{ game.name }}</h1>
-    <div class="container" style="border: 1px solid white; border-radius:5px; 
+    <div class="container" style="border: 1px solid black; 
     padding:20px; margin-bottom:10px;">
         <p>{{ game.text }}</p>
         <col>
             <h4>Disponível para</h4>
-            <ol style="margin-top:20px; margin-bottom:40px;" class="breadcrumb">
+            <ol style="border: 1px solid black; margin-top:20px; margin-bottom:40px;" class="breadcrumb">
             {% for platform in platforms %}
                 <li class="breadcrumb-item">{{ platform.name }}</li>
             {% endfor %}
@@ -45,19 +45,19 @@
                     {% if user_media < 5 %}
                     <div style="margin-top:20px;">
                         <span style="background-color: #E43725;
-                         border-radius:20px; padding: 10px;">{{ user_media }}
+                         border-radius:20px; padding: 10px; color:white;">{{ user_media }}
                         </span>
                      </div>
                     {% elif user_media >= 5 and user_media < 7 %}
                     <div style="margin-top:20px;">
                         <span style="background-color: #F39C12;
-                         border-radius:20px; padding: 10px;">{{ user_media }}
+                         border-radius:20px; padding: 10px; color:white;">{{ user_media }}
                         </span>
                      </div>
                     {% elif user_media >= 7 %}
                     <div style="margin-top:20px;">
                         <span style="background-color: #00BC8C;
-                         border-radius:20px; padding: 10px;">{{ user_media }}
+                         border-radius:20px; padding: 10px; color:white;">{{ user_media }}
                         </span>
                      </div>
                      {% endif %}

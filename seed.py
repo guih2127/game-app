@@ -49,3 +49,22 @@ def create_modes():
 		]
 	)
 
+def create_developers():
+	Developer.objects.bulk_create(
+		[Developer(name="From Software", website="www.fromsoftware.com"),
+		Developer(name="Eletronic Arts", website="www.ea.com"),
+		Developer(name="Atlus", website="www.atlus.com"),
+		Developer(name="Naughty Dog", website="www.naughtydog.com"),
+		Developer(name="2K Games", website="www.2kgames.com"),
+		Developer(name="Activision", website="www.activision.com"),
+		Developer(name="Bamdai Namco", website="www.bamdai.com"),
+		Developer(name="Bioware", website="www.bioware.com"),
+		Developer(name="Blizzard", website="www.blizzard.com"),
+		Developer(name="Microsoft Studios", website="www.microsoft.com"),
+		Developer(name="Konami", website="www.konami.com"),
+		Developer(name="Sega", website="www.sega.com"),
+		Developer(name="Capcom", website="www.capcom.com"),
+		Developer(name="Niantic", website="www.niantic.com"),
+		]
+	)
+
